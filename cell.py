@@ -27,3 +27,19 @@ class Cell():
         if self.bottom_wall:
             self.win.draw_line(Line(Point(self.x1, self.y2), Point(
                 self.x2, self.y2)), "black")
+
+    def draw_move(self, to_cell, undo=False):
+        if self.x1 == to_cell.x1 and self.y1 == to_cell.y1:
+            return
+
+        fill_color = "red"
+        if undo:
+            fill_color = "gray"
+
+        def centroid(x1, x2, y1, y2):
+            return Point((x1 + x2) / 2, (y1 + y2) / 2)
+
+        self.win.draw_line(Line(centroid(self.x1, self.x2,
+                                         self.y1, self.y2),
+                                centroid(to_cell.x1, to_cell.x2,
+                                         to_cell.y1, to_cell.y2)), fill_color)
