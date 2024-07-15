@@ -1,7 +1,7 @@
 from graphics import Point, Line
 
 
-class Cell():
+class Cell:
     def __init__(self, win=None) -> None:
         self.left_wall = True
         self.right_wall = True
@@ -22,20 +22,32 @@ class Cell():
         self.y1 = y1
         self.y2 = y2
         if self.left_wall:
-            self.win.draw_line(Line(Point(self.x1, self.y1), Point(
-                self.x1, self.y2)), "black")
+            self.win.draw_line(Line(Point(self.x1, self.y1), Point(self.x1, self.y2)))
+        else:
+            self.win.draw_line(
+                Line(Point(self.x1, self.y1), Point(self.x1, self.y2)), "white"
+            )
         if self.right_wall:
-            self.win.draw_line(Line(Point(self.x2, self.y1), Point(
-                self.x2, self.y2)), "black")
+            self.win.draw_line(Line(Point(self.x2, self.y1), Point(self.x2, self.y2)))
+        else:
+            self.win.draw_line(
+                Line(Point(self.x2, self.y1), Point(self.x2, self.y2)), "white"
+            )
         if self.top_wall:
-            self.win.draw_line(Line(Point(self.x1, self.y1), Point(
-                self.x2, self.y1)), "black")
+            self.win.draw_line(Line(Point(self.x1, self.y1), Point(self.x2, self.y1)))
+        else:
+            self.win.draw_line(
+                Line(Point(self.x1, self.y1), Point(self.x2, self.y1)), "white"
+            )
         if self.bottom_wall:
-            self.win.draw_line(Line(Point(self.x1, self.y2), Point(
-                self.x2, self.y2)), "black")
+            self.win.draw_line(Line(Point(self.x1, self.y2), Point(self.x2, self.y2)))
+        else:
+            self.win.draw_line(
+                Line(Point(self.x1, self.y2), Point(self.x2, self.y2)), "white"
+            )
 
     def draw_move(self, to_cell, undo=False):
-        if self.x1 == to_cell.x1 and self.y1 == to_cell.y1:
+        if self.x1 == to_cell.x1 and self.y1 == to_cell.y1 or self.win is None:
             return
 
         fill_color = "red"
@@ -45,7 +57,10 @@ class Cell():
         def centroid(x1, x2, y1, y2):
             return Point((x1 + x2) / 2, (y1 + y2) / 2)
 
-        self.win.draw_line(Line(centroid(self.x1, self.x2,
-                                         self.y1, self.y2),
-                                centroid(to_cell.x1, to_cell.x2,
-                                         to_cell.y1, to_cell.y2)), fill_color)
+        self.win.draw_line(
+            Line(
+                centroid(self.x1, self.x2, self.y1, self.y2),
+                centroid(to_cell.x1, to_cell.x2, to_cell.y1, to_cell.y2),
+            ),
+            fill_color,
+        )

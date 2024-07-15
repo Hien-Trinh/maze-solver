@@ -3,9 +3,8 @@ import random
 import time
 
 
-class Maze():
-    def __init__(self, x, y, num_rows, num_cols,
-                 cell_size_x, cell_size_y, win=None):
+class Maze:
+    def __init__(self, x, y, num_rows, num_cols, cell_size_x, cell_size_y, win=None):
         self.x = x
         self.y = y
         self.num_rows = num_rows
@@ -16,30 +15,42 @@ class Maze():
         self.cells = []
 
         self.create_cells()
+        self.break_entrance_and_exit()
 
     def create_cells(self):
         for i in range(self.num_cols):
             cell_col = []
             for j in range(self.num_rows):
                 cell_col.append(Cell(self.win))
-                self.draw_cell(i, j)
 
             self.cells.append(cell_col)
+
+        for i in range(self.num_cols):
+            for j in range(self.num_rows):
+                self.draw_cell(i, j)
 
     def draw_cell(self, i, j):
         if self.win is None:
             return
 
-        self.cells[i][j].draw(self.x + self.cell_size_x * j,
-                              self.x + self.cell_size_x * (j + 1),
-                              self.y + self.cell_size_y * i,
-                              self.y + self.cell_size_y * (i + 1))
+        self.cells[i][j].draw(
+            self.x + self.cell_size_x * j,
+            self.x + self.cell_size_x * (j + 1),
+            self.y + self.cell_size_y * i,
+            self.y + self.cell_size_y * (i + 1),
+        )
 
         self.animate()
 
     def animate(self):
-        if self._win is None:
+        if self.win is None:
             return
 
-        self._win.redraw()
+        self.win.redraw()
         time.sleep(0.05)
+
+    def break_entrance_and_exit(self):
+        self.cells[0][0].top_wall = False
+        self.cells[self.num_cols - 1][self.num_rows - 1].bottom_wall = False
+        self.draw_cell(0, 0)
+        self.draw_cell(self.num_cols - 1, self.num_rows - 1)
