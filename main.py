@@ -4,6 +4,9 @@ import sys
 
 
 def main():
+    # Maze generation seed, default is None
+    # seed = 0;
+
     num_rows = 10
     num_cols = 10
     margin = 50
