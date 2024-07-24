@@ -4,18 +4,27 @@ import sys
 
 
 def main():
-    # Create the GUI window
-    win = Window(800, 800)
+    num_rows = 10
+    num_cols = 10
+    margin = 50
+    screen_x = 600
+    screen_y = 600
+    cell_size_x = (screen_x - 2 * margin) / num_cols
+    cell_size_y = (screen_y - 2 * margin) / num_rows
 
-    # Create the maze object with parameters
-    maze = Maze(10, 10, 5, 5, 20, 20, win)
+    sys.setrecursionlimit(10000)
+    win = Window(screen_x, screen_y)
 
-    # Solve the maze
-    maze.solve()
-
-    # Wait for the window to close
+    maze = Maze(margin, margin, num_rows, num_cols,
+                cell_size_x, cell_size_y, win)
+    print("maze created")
+    is_solveable = maze.solve()
+    if not is_solveable:
+        print("maze can not be solved!")
+    else:
+        print("maze solved!")
     win.wait_for_close()
 
 
-if __name__ == "__main__":
-    main()
+main()
+
